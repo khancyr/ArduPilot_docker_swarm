@@ -1,0 +1,20 @@
+FROM arm32v7/python:3.8.0-slim-buster as builder
+
+# Say that we won't anwser question
+ENV DEBIAN_FRONTEND noninteractive
+
+### Install minimal build tools and remove cache. Don't do any update
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    python3-dev \
+    python3-opencv \
+    python3-pip \
+    python3-matplotlib \
+    python3-pygame \
+    python3-lxml \
+    python3-yaml \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN pip install -U mavproxy
+
+COPY entrypoint.sh /bin/entrypoint
+ENTRYPOINT ["entrypoint"]
