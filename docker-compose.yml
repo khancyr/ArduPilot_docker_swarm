@@ -1,38 +1,8 @@
 version: '2'
 services:
   vehicle1:
-    image: ardupilot:1.0.0
-    build: ./ardupilot
+    image: vnc_mavproxy:1.0.0
+    build: x11-novnc-docker/Mavproxy
     network_mode: host
-    environment:
-      - INSTANCE
-      - SYSID
-      - NEED_START
     restart: on-failure
-  vehicle2:
-    image: ardupilot:1.0.0
-    build: ./ardupilot
-    network_mode: host
-    environment:
-      - INSTANCE
-      - SYSID
-      - NEED_START
-    restart: on-failure
-  vehicle3:
-    image: ardupilot:1.0.0
-    build: ./ardupilot
-    network_mode: host
-    environment:
-      - INSTANCE
-      - SYSID
-      - NEED_START
-    restart: on-failure
-  vehicle4:
-    image: ardupilot:1.0.0
-    build: ./ardupilot
-    network_mode: host
-    environment:
-      - INSTANCE
-      - SYSID
-      - NEED_START
-    restart: on-failure
+

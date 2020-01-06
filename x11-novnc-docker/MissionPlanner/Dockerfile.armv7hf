@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM arm32v7/ubuntu:19.04
 
 # Set correct environment variables
 ENV HOME /root
@@ -32,8 +32,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # RUN wget https://firmware.ardupilot.org/Tools/MissionPlanner/MissionPlanner-latest.zip
-COPY MissionPlannerBeta.zip /root
-RUN mkdir MissionPlanner && cd MissionPlanner/ && unzip /root/MissionPlannerBeta.zip
+RUN wget https://ci.appveyor.com/api/buildjobs/6x80k5ey5juvbjvw/artifacts/MissionPlannerBeta.zip
+# COPY MissionPlannerBeta.zip /root
+RUN mkdir MissionPlanner && cd MissionPlanner/ && unzip /root/MissionPlannerBeta.zip && rm /root/MissionPlannerBeta.zip
+COPY libSkiaSharp.so /root/MissionPlanner/
 
 # Docker's supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -46,6 +48,6 @@ ENV LANGUAGE en_US.UTF-8
 ENV SCREEN_RESOLUTION 1024x768
 
 # Expose Port (Note: if you change it do it as well in surpervisord.conf)
-EXPOSE 8083
+EXPOSE 80
 
 CMD ["/usr/bin/supervisord"]
